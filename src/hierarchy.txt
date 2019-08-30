@@ -1,0 +1,6 @@
+WeatherApp - Håller state?
+Globals: CurrentLocation
+--- SearchContainer (CurrentLocation)
+--- CurrentWeather (CurrentLocation)
+--- ForecastContainer (CurrentLocation)
+---
