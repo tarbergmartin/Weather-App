@@ -1,6 +1,14 @@
-WeatherApp - Håller state?
-Globals: CurrentLocation
---- SearchContainer (CurrentLocation)
---- CurrentWeather (CurrentLocation)
---- ForecastContainer (CurrentLocation)
----
+
+
+-- WeatherAppContainer - Globals: CurrentLocation - Håller state
+---- SearchBar (CurrentLocation)
+---------- Input field
+---------- Button
+---- CurrentWeather (CurrentLocation)
+----------- CurrentLocation
+----------- Date and time
+---- Forecast (CurrentLocation)
+----------- Min/MAx
+----------- 5 upcoming days
+----------- Temperature / Weather icon
+
