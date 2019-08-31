@@ -5,6 +5,7 @@
 ---------- Input field
 ---------- Button
 ---- CurrentWeather (CurrentLocation)
+----------- Save favourite
 ----------- CurrentLocation
 ----------- Date and time
 ---- Forecast (CurrentLocation)
