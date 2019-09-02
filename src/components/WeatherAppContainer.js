@@ -1,66 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { CurrentWeather } from './CurrentWeather';
-import { fetchWeather, fetchForecast } from '../services/OpenWeatherMapService';
-import { getCurrentPosition } from '../services/GeoLocationService';
+import React, { useState, useEffect, useRef } from 'react';
+import { fetchWeather, fetchForecast, fetchWeatherByQuery, fetchForecastByQuery } from '../services/WeatherBitService';
+import { buildQuery } from '../helpers/AppHelpers';
+import Searchbar from './Searchbar';
+import Navbar from './Navbar';
+import CurrentWeather from './CurrentWeather';
+import Forecast from './Forecast';
 
+const WeatherAppContainer = () => {
 
-export default function WeatherAppContainer() {
+    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('fruits')));
+    const [weather, setWeather] = useState();
+    const [forecast, setForecast] = useState();
 
-    const [favorite, setFavorite] = useState();
-    const [weather, setWeather] = useState({});
-    const [forecast, setForecast] = useState({});
-    const [position, setPosition] = useState();
-    const [test, setTest] = useState(true);
+    const inputRef = useRef('');
 
     useEffect(() => {
-        // Set current position only on componentDidMount.
-        console.log('componentDidMount');
-        getCurrentPosition()
-            .then(response => setPosition(response.coords))
+        getWeatherData();
     }, [])
 
+    const getWeatherData = async () => {
+        
+        const [weatherData, forecastData] = await Promise.all([
+            fetchWeather(),
+            fetchForecast()
+        ]);
 
-    useEffect(() => {
-        // Track changes in position state and fetch data when it exist.
-        if (position) {
-            getWeather();
-            getForecast();
-        }
+        setWeatherData(weatherData, forecastData);
+    }
 
-        console.log('positionDidUpdate')
+    const setWeatherData = (weatherData, forecastData) => {
+        setWeather(weatherData !== null ? weatherData[0] : null);
+        setForecast(forecastData !== null ? forecastData.slice(0, 5) : null);
+    }
 
-    }, [position])
+    const getWeatherByQuery = async (e) => {
 
-    console.log("Render")
+        e.preventDefault();
+        const query = buildQuery(inputRef.current.value);
 
-    const getWeather = async () => {
+        const [weatherData, forecastData] = await Promise.all([
+            fetchWeatherByQuery(query),
+            fetchForecastByQuery(query)
+        ]);
 
-        const data = await fetchWeather({
-            'units': 'metric',
-            'q': 'stockholm,se'
-        });
+        setWeatherData(weatherData, forecastData);
+    }
 
+    const addFavorite = () => {
 
-        setWeather(data);
-
-    };
-
-    const getForecast = async () => {
-        const data = await fetchForecast({
-            'units': 'metric',
-            'lat': position.latitude,
-            'lon': position.longitude
-        })
-        // console.log(data);
-
-        setForecast(data);
     }
 
     return (
-        <>
-            <button onClick={() => setTest(!test)}></button>
-            <CurrentWeather />
-        </>
-
+        <div className="weather-app">
+            <Searchbar inputRef={inputRef} handleSearch={getWeatherByQuery} />
+            <Navbar favorites={favorites} />
+            <CurrentWeather current={weather} />
+            <Forecast forecast={forecast} />
+        </div>
     )
 }
+
+export default WeatherAppContainer;

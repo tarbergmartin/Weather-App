@@ -1,5 +1,6 @@
 import React from 'react';
 import WeatherAppContainer from './components/WeatherAppContainer';
+import './css/main.scss';
 
 function App() {
 
