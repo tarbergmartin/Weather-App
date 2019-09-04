@@ -1,14 +1,21 @@
 import React from 'react';
+import { getWeatherCode } from '../helpers/AppHelpers';
 
-const WeatherLogo = ({ weatherCode }) => {
+export default function WeatherLogo ({ current })  {
 
-    if (weatherCode) {
-        return (
-            <img src={require(`../images/${weatherCode}.png`)} />
-        );
+    if (!current) {
+        return null;
     }
 
-    return null;
+    const { weather, pod } = current;
+    const { code, description } = weather;
+    const weatherCode = getWeatherCode(code, pod);
+
+    return (
+        <div>
+            <img src={require(`../images/${weatherCode}.png`)} />
+            <h4>{description}</h4>
+        </div>
+    );
 }
 
-export default WeatherLogo;

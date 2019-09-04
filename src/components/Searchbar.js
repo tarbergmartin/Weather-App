@@ -1,14 +1,10 @@
 import React from 'react';
 
-const Searchbar = ({ inputRef, handleSearch }) => {
+export default function Searchbar ({ inputRef, getWeatherByQuery }) {
     return (
-        <form className="weather-app__search" onSubmit={handleSearch}>
-            <input type="text" ref={inputRef} placeholder="Search for a location..." />
-            <button type="submit">
-                <i className="fa fa-search"></i>
-            </button>
+        <form className="weather-app__search" onSubmit={getWeatherByQuery}>
+            <input className="search-input" type="text" ref={inputRef} placeholder="Search for a location..." />
+            <input className="search-button" type="submit" value="Search"/>
         </form>
     );
 }
-
-export default Searchbar;

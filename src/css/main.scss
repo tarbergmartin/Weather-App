@@ -1,36 +1,76 @@
 $border-color: solid 1px grey;
 
 * {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-sizing: border-box;
 }
 
+body {
+    font-size: 16px;
+}
+
 .weather-app {
-    border: none;
-    height: 600px;
+    background-image: linear-gradient(to right top, #0a4153, #07374a, #052d40, #032437, #021b2d);
+    max-width: 500px;
 
-    .weather-app__search {
-        border: none;
+    h3, h4, h5, h6 {
+        margin: 5px 0;
+    }
+
+    h3 {
+        font-size: 50px;
+    }
+
+    .favorites-list {
+
+        margin: 0;
+        padding: 0 10px;
+        font-size: 0.7em;
+        list-style: none;
         display: flex;
-        flex-direction: row;
-        height: 30px;
+        color: white;
         width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
 
-        input {
-          border: $border-color;
-          flex: 1;
-        }
+        .favorites-list__item {
+           padding: 10px;
 
-        button {
-            background: greenyellow;
-            border: $border-color;
+           span {
             cursor: pointer;
-            width: 20%;
 
             &:hover {
-                background: green;
+                color: darkcyan;
+            }
+           }
+
+
+        }
+    }
+
+    .weather-app__search {
+        display: flex;
+        flex-direction: row;
+
+        input {
+          padding: 10px;
+        }
+
+        .search-input {
+            flex: 2;
+        }
+
+        .search-button {
+            border: none;
+            color: white;
+            cursor: pointer;
+            background-color: darkcyan; 
+            flex: 1;
+
+            &:hover {
+                background-color: darkgoldenrod;
             }
         }
-        
     }
 
     .weather-app__navbar {
@@ -39,13 +79,87 @@ $border-color: solid 1px grey;
     }
 
     .weather-app__current {
+        position: relative;
+        background-image: linear-gradient(to bottom, #0a4153, #004762, #004c71, #005180, #05558e);
         color: white;
-        background: #66B2FF;
-        height: 500px;
-        border: $border-color;
+        display: flex;
+        padding: 20px 20px;
+
+        .favorite-heart {
+            cursor: pointer;
+            font-size: 13px;
+            transition: transform .3s;
+            display: inline-block;
+            margin-left: 10px;
+
+            &.unchecked {
+                opacity: 0.45;
+                color: gainsboro;
+            }
+
+            &.checked {
+                color: #00cbe6;
+            }
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        .weather-details-left { 
+            width: 60%;
+        }
+
+        .weather-details-right {
+            display: flex;
+            width: 40%;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        
+
+            h2 {
+                font-size: 12px,
+            }
+            
+        }
 
         img {
             height: 90px;
+        }
+    }
+
+    .weather-app__forecast {
+
+        .forecast-list {
+            margin:0;
+            padding: 0;
+            color: white;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+
+          
+           
+            .forecast-item {     
+                border-top: solid 1px;
+                display: flex;
+                flex-direction: row;
+                padding: 5px;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+
+                &:first-of-type {
+                    border: none;
+                }
+
+    
+                img {
+                    height: 35px;
+                }
+
+            }
         }
     }
 }

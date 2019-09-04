@@ -1,26 +1,42 @@
 export const buildQuery = (input) => {
 
     const params = input.split(',')
-                        .splice(0, 2)
-                        .filter(x => !isStringNullOrEmpty(x))
+        .splice(0, 2)
+        .filter(p => !isStringNullOrEmpty(p))
 
     const queryObj = Object.assign({},
         params[0] ? { city: params[0] } : null,
-        params[1] ? { country: params[1] } : null);
+        params[1] ? { country: params[1] } : null,
+                    { 'days': 5 });
 
     return queryObj;
 }
 
-export const getDateTimeString = () => {
-    const date = new Date();
+export const getDateStringByTimeZone = (timezone) => {
+    return new Date().toLocaleDateString('en-GB', {
+        timeZone: timezone,
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+    });
 }
 
-const getWeekDay = () => {
+export const getTimeStringByTimeZone = (timezone) => {
+    return new Date().toLocaleTimeString('en-GB', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
 
-    const date = new Date();
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+export const getStoredFavorites = () => {
+    const storage = localStorage.getItem('favorites');
+    return storage !== null ? JSON.parse(storage) : [];
+}
 
-    return weekdays[date.getDay()];
+export const storeFavorites= (favorites) => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
 export const getWeatherCode = (weatherCode, partOfDay) => {

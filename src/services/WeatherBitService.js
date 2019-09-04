@@ -2,30 +2,25 @@ import { getCurrentPosition } from './GeoLocationService';
 
 const getData = async (endpoint, query) => {
 
+
     const host = 'api.weatherbit.io/v2.0/';
     const url = `https://${host}${endpoint}${query}&key=458eaaf6f33e47469236615f28469753`;
 
     const response = await fetch(url);
-    console.log(response);
 
     if (response.status === 204 || response.status == 400) {
         return null;
     }
 
     const json = await response.json();
-    console.log(json);
+
     return json.data;
 }
 
 const getLocationQuery = async () => {
 
     const position = await getCurrentPosition();
-    const query = getQueryFromObj({
-        'lat': position.coords.latitude,
-        'lon': position.coords.longitude
-    });
-
-    return query;
+    return { 'lat': position.coords.latitude, 'lon': position.coords.longitude };
 }
 
 const getQueryFromObj = (queryObj) => {
@@ -37,19 +32,27 @@ const isQueryObjEmpty = (query) => {
 }
 
 export const fetchWeather = async () => {
-    const query = await getLocationQuery();
+
+    const queryObj = await getLocationQuery();
+    const query = getQueryFromObj(queryObj)
+
     return await getData('current', query);
 }
 
 export const fetchForecast = async () => {
-    const query = await getLocationQuery();
+    
+    const queryObj = await getLocationQuery();
+    const query = getQueryFromObj(Object.assign(queryObj, {
+        'days': 5
+    }));
+
     return await getData('forecast/daily', query);
 }
 
 export const fetchWeatherByQuery = async (query) => {
-    
+
     const newQuery = isQueryObjEmpty(query) ? await getLocationQuery() : getQueryFromObj(query);
-                                      
+
     return await getData('current', newQuery);
 }
 
