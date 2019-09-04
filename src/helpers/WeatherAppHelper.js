@@ -1,4 +1,4 @@
-export const buildQuery = (input) => {
+export const buildQuery = (input, days) => {
 
     const params = input.split(',')
         .splice(0, 2)
@@ -6,37 +6,10 @@ export const buildQuery = (input) => {
 
     const queryObj = Object.assign({},
         params[0] ? { city: params[0] } : null,
-        params[1] ? { country: params[1] } : null,
-                    { 'days': 5 });
+        params[1] ? { country: params[1] } : null);
+
 
     return queryObj;
-}
-
-export const getDateStringByTimeZone = (timezone) => {
-    return new Date().toLocaleDateString('en-GB', {
-        timeZone: timezone,
-        weekday: "long",
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-    });
-}
-
-export const getTimeStringByTimeZone = (timezone) => {
-    return new Date().toLocaleTimeString('en-GB', {
-        timeZone: timezone,
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-export const getStoredFavorites = () => {
-    const storage = localStorage.getItem('favorites');
-    return storage !== null ? JSON.parse(storage) : [];
-}
-
-export const storeFavorites= (favorites) => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
 }
 
 export const getWeatherCode = (weatherCode, partOfDay) => {

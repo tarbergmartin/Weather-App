@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function FavoritesList({ favorites, getWeatherByQuery }) {
+export default function FavoritesList({ favorites, getWeatherByQuery, isFavListVisible  }) {
 
     if (!favorites) {
         return (
@@ -8,8 +8,10 @@ export default function FavoritesList({ favorites, getWeatherByQuery }) {
         )
     }
 
+    const className = isFavListVisible ? 'open' : 'closed';
+
     return (
-        <ul className="favorites-list">
+        <ul className={`weather-app__favorites ${className}`}>
             {
                 favorites.map(favorite => {
                     return (
@@ -22,7 +24,6 @@ export default function FavoritesList({ favorites, getWeatherByQuery }) {
             }
 
         </ul>
-
     )
 }
 

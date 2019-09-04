@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDateStringByTimeZone, getTimeStringByTimeZone } from '../helpers/AppHelpers';
+import { getDateStringByTimeZone, getTimeStringByTimeZone } from '../../helpers/DateTimeHelper'
 
 export default function DateDetails({ current }) {
 

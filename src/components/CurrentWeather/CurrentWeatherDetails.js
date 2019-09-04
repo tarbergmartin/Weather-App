@@ -1,5 +1,5 @@
 import React from 'react'
-import FavButton from './FavButton';
+import FavToggle from '../Favorites/FavToggle';
 
 export default function WeatherDetails({current, location, favorites, addFavorite, removeFavorite}) {
 
@@ -14,9 +14,8 @@ export default function WeatherDetails({current, location, favorites, addFavorit
         <>
             <h3>{roundedTemp}°C</h3>
             <h4>
-                {city_name}, 
-                {country_code}
-                <FavButton
+                {city_name}, {country_code}
+                <FavToggle
                 location={location}
                 favorites={favorites}
                 addFavorite={addFavorite}

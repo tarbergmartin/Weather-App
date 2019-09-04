@@ -1,7 +1,7 @@
 import React from 'react';
-import { getWeatherCode } from '../helpers/AppHelpers';
+import { getWeatherCode } from '../../helpers/WeatherAppHelper';
 
-export default function ForecastItem({ forecast, id }) {
+export default function ForecastItem({ forecast }) {
 
     const { max_temp, min_temp, datetime, weather } = forecast;
     const { code } = weather;
@@ -14,7 +14,7 @@ export default function ForecastItem({ forecast, id }) {
         <li className="forecast-item">
             <span>{datetime}</span>
             <span>{roundedMaxTemp}° / {roundedMinTemp}°</span>
-            <img src={require(`../images/${weatherCode}.png`)} />
+            <img src={require(`../../images/${weatherCode}.png`)} />
         </li>
     )
 }

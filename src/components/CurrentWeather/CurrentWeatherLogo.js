@@ -1,5 +1,5 @@
 import React from 'react';
-import { getWeatherCode } from '../helpers/AppHelpers';
+import { getWeatherCode } from '../../helpers/WeatherAppHelper';
 
 export default function WeatherLogo ({ current })  {
 
@@ -13,7 +13,7 @@ export default function WeatherLogo ({ current })  {
 
     return (
         <div>
-            <img src={require(`../images/${weatherCode}.png`)} />
+            <img src={require(`../../images/${weatherCode}.png`)} />
             <h4>{description}</h4>
         </div>
     );

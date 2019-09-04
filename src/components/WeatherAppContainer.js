@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchWeather, fetchForecast, fetchWeatherByQuery, fetchForecastByQuery } from '../services/WeatherBitService';
-import { buildQuery, getStoredFavorites, storeFavorites } from '../helpers/AppHelpers';
-import Searchbar from './Searchbar';
-import Navbar from './Navbar';
-import CurrentWeatherWrapper from './CurrentWeatherWrapper';
-import ForecastList from './ForecastList';
-import FavoritesList from './FavoritesList';
+import { buildQuery } from '../helpers/WeatherAppHelper';
+import { getStoredFavorites, storeFavorites } from '../helpers/LocalStorageHelper';
+import FavList from './Favorites/FavList';
+import CurrentWeatherWrapper from './CurrentWeather/CurrentWeatherWrapper';
+import Searchbar from './Search/Searchbar';
+import ForecastList from './Forecast/ForecastList';
 
 export default function WeatherAppContainer() {
 
@@ -13,6 +13,7 @@ export default function WeatherAppContainer() {
     const [weather, setWeather] = useState();
     const [forecast, setForecast] = useState();
     const [currentLocation, setCurrentLocation] = useState();
+    const [isFavListVisible, setFavListVisibility] = useState(false);
 
     const inputRef = useRef('');
 
@@ -21,13 +22,19 @@ export default function WeatherAppContainer() {
     }, []);
 
     useEffect(() => {
+
         storeFavorites(favorites);
+
+        if (favorites.length === 0) {
+            setFavListVisibility(false);
+        }
+
     }, [favorites]);
 
     const getWeatherData = async () => {
         const [weatherData, forecastData] = await Promise.all([
             fetchWeather(),
-            fetchForecast()
+            fetchForecast(6)
         ]);
 
         setData(weatherData, forecastData);
@@ -36,23 +43,25 @@ export default function WeatherAppContainer() {
     const setData = (weatherData, forecastData) => {
 
         setWeather(weatherData !== null ? weatherData[0] : null);
-        setForecast(forecastData !== null ? forecastData : null);
+        setForecast(forecastData !== null ? forecastData.splice(0, 5) : null);
         setCurrentLocation(weatherData !== null ? `${weatherData[0].city_name},${weatherData[0].country_code}` : null);
     }
 
     const getWeatherByQuery = async (e) => {
 
         e.preventDefault();
-    
+
         const clickedFav = e.target.id;
         const queryInput = clickedFav ? clickedFav : inputRef.current.value;
-        const query = buildQuery(queryInput);
+
+        const queryObj = buildQuery(queryInput);
 
         const [weatherData, forecastData] = await Promise.all([
-            fetchWeatherByQuery(query),
-            fetchForecastByQuery(query)
+            fetchWeatherByQuery(queryObj),
+            fetchForecastByQuery(queryObj, 6)
         ]);
 
+        inputRef.current.value = '';
         setData(weatherData, forecastData);
     }
 
@@ -61,24 +70,30 @@ export default function WeatherAppContainer() {
     }
 
     const removeFavorite = (e) => {
-        
         const favoriteListItem = e.target.value;
         const itemToRemove = favoriteListItem ? favoriteListItem : currentLocation;
-       
-        setFavorites([...favorites.filter(f => f !== itemToRemove)]);
+
+        setFavorites([...favorites.filter(fav => fav !== itemToRemove)]);
+    }
+
+    const toggleFavorites = () => {
+        setFavListVisibility(!isFavListVisible);
     }
 
     return (
         <div className="weather-app">
-            <FavoritesList 
+            <FavList
                 favorites={favorites}
-                getWeatherByQuery={getWeatherByQuery} />
+                getWeatherByQuery={getWeatherByQuery}
+                isFavListVisible={isFavListVisible} />
             <CurrentWeatherWrapper
                 current={weather}
                 location={currentLocation}
                 favorites={favorites}
                 addFavorite={addFavorite}
-                removeFavorite={removeFavorite} />
+                removeFavorite={removeFavorite}
+                toggleFavorites={toggleFavorites}
+                isFavListVisible={isFavListVisible} />
             <Searchbar inputRef={inputRef} getWeatherByQuery={getWeatherByQuery} />
             <ForecastList forecast={forecast} />
         </div>
