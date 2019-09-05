@@ -43,7 +43,7 @@ export default function WeatherAppContainer() {
     const setData = (weatherData, forecastData) => {
 
         setWeather(weatherData !== null ? weatherData[0] : null);
-        setForecast(forecastData !== null ? forecastData.splice(0, 5) : null);
+        setForecast(forecastData !== null ? forecastData.splice(1, 5) : null);
         setCurrentLocation(weatherData !== null ? `${weatherData[0].city_name},${weatherData[0].country_code}` : null);
     }
 
