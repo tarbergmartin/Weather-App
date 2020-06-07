@@ -6,4 +6,4 @@ This weather application shows you the current weather conditions or a five day 
 At startup, run command the following command to include the necessary dependencies:
 ### `npm start`
 
-![](desktop/giffy.gif)
+![](giffy.gif)
