@@ -65,8 +65,6 @@ body {
         
     }
 
-    
-
     .weather-app__current {
         position: relative;
         background-image: linear-gradient(to bottom, #0a4153, #004762, #004c71, #005180, #05558e);
@@ -127,11 +125,9 @@ body {
             justify-content: center;
             align-items: center;
         
-
             h2 {
                 font-size: 12px,
-            }
-            
+            }       
         }
 
         img {
@@ -191,7 +187,6 @@ body {
                 img {
                     height: 35px;
                 }
-
             }
         }
     }
