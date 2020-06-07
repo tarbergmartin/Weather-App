@@ -1,4 +1,6 @@
-## Weather Application (React Hooks)
+## Weather Application (React)
+
+**Creation date: 2019-09-28**
 
 This weather application shows you the current weather conditions or a five day forecast, based on either your current location or on a search query. It's also possible to add favorites. The application uses the Weatherbit API.
 
